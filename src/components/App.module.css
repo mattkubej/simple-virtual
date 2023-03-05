@@ -1,0 +1,43 @@
+.App {
+  background-color: #282c34;
+  color: white;
+
+  height: 100vh;
+
+  min-width: 100vw;
+  width: max-content;
+}
+
+.Container {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} 
+
+.Controls {
+  width: 500px;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.Controls input, .Controls label {
+  vertical-align: middle;
+}
+
+.Controls input, .Controls select {
+  outline: none;
+}
+
+.Controls label:not(:last-child) {
+  margin-right: 20px;
+}
+
+.ControlBlock {
+  display: flex;
+  justify-content: space-evenly;
+  
+  padding: 10px;
+}

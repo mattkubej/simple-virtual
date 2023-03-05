@@ -1,0 +1,18 @@
+.ScrollContainer {
+  height: 500px;
+  width: 500px;
+  overflow: scroll;
+}
+
+.Table {
+  border-collapse: collapse;
+}
+
+.Cell {
+  padding: 0;
+}
+
+.Item {
+  width: 75px;
+  height: 25px;
+}

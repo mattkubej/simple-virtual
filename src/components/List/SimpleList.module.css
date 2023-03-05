@@ -1,0 +1,13 @@
+:root {
+  --list-item-height: 25px;
+}
+
+.ScrollContainer {
+  height: 500px;
+  width: 200px;
+  overflow-y: scroll;
+}
+
+.ListItem {
+  height: var(--list-item-height);
+}
