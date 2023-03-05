@@ -28,18 +28,19 @@ export default function VirtualizedList() {
         className={styles.ListItemContainer}
         style={{ height: virtualizer.getScrollableHeight() }}
       >
-        {virtualizer.getVirtualItems().map((itemIndex) => {
-          const offset = itemIndex * ITEM_HEIGHT;
+        {virtualizer.getVirtualItems().map((virtualItem) => {
+          const virtualItemIndex = virtualItem.index;
+
           return (
             <div
-              key={itemIndex}
+              key={virtualItemIndex}
               className={styles.ListItem}
               style={{
                 position: 'absolute',
-                transform: `translateY(${offset}px)`,
+                transform: `translateY(${virtualItem.offset}px)`,
               }}
             >
-              {items[itemIndex]}
+              {items[virtualItemIndex]}
             </div>
           );
         })}

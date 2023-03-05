@@ -1,5 +1,3 @@
-import { range } from '@/utils/helpers';
-
 type CleanupCallback = () => void;
 type MaybeScrollElement<TScrollElement extends Element> = TScrollElement | null;
 type Direction = 'vertical' | 'horizontal';
@@ -20,6 +18,11 @@ function addScrollOffsetListener<TScrollElement extends Element>(
   });
 
   return () => element.removeEventListener('scroll', onScroll);
+}
+
+export interface VirtualItem {
+  index: number;
+  offset: number;
 }
 
 export interface VirtualizerOptions<TScrollElement extends Element> {
@@ -54,12 +57,19 @@ export class Virtualizer<TScrollElement extends Element> {
     return () => this.cleanup();
   }
 
-  getVirtualItems() {
-    const [startIndex, endIndex] = this.getVirtualItemRange();
-    return range(startIndex, endIndex);
+  getVirtualItems(): VirtualItem[] {
+    const { startIndex, endIndex } = this.getVirtualItemRange();
+
+    return Array.from({ length: endIndex - startIndex }, (_, index) => {
+      const itemIndex = index + startIndex;
+      return {
+        index: itemIndex,
+        offset: itemIndex * this.options.itemHeight,
+      };
+    });
   }
 
-  getScrollableHeight() {
+  getScrollableHeight(): number {
     return this.options.itemCount * this.options.itemHeight;
   }
 
@@ -68,7 +78,7 @@ export class Virtualizer<TScrollElement extends Element> {
     this.cleanupCallbacks = [];
   }
 
-  private getScrollElementSize() {
+  private getScrollElementSize(): number {
     const { direction } = this.options;
     const attribute = direction === 'vertical' ? 'clientHeight' : 'clientWidth';
     return this.scrollElement?.[attribute] ?? 0;
@@ -97,16 +107,20 @@ export class Virtualizer<TScrollElement extends Element> {
     this.options.onChange?.();
   }
 
-  private getVirtualItemRange() {
+  private getVirtualItemRange(): {
+    startIndex: number;
+    endIndex: number;
+  } {
     const { itemCount, itemHeight, overscan } = this.options;
 
     const startIndex = Math.floor(this.scrollOffset / itemHeight);
-    const endIndex =
-      startIndex + Math.ceil(this.scrollElementSize / itemHeight);
 
-    const startIndexWithOverscan = Math.max(0, startIndex - overscan);
-    const endIndexWithOverscan = Math.min(itemCount, endIndex + overscan);
+    const itemsInScrollElement = Math.ceil(this.scrollElementSize / itemHeight);
+    const endIndex = startIndex + itemsInScrollElement;
 
-    return [startIndexWithOverscan, endIndexWithOverscan];
+    return {
+      startIndex: Math.max(0, startIndex - overscan),
+      endIndex: Math.min(itemCount, endIndex + overscan),
+    };
   }
 }
