@@ -23,12 +23,12 @@ function addScrollOffsetListener<TScrollElement extends Element>(
 }
 
 export interface VirtualizerOptions<TScrollElement extends Element> {
+  direction: Direction;
   getScrollElement: () => MaybeScrollElement<TScrollElement>;
   itemCount: number;
   itemHeight: number;
-  overscan: number;
   onChange?: () => void;
-  direction: Direction;
+  overscan: number;
 }
 
 export class Virtualizer<TScrollElement extends Element> {
