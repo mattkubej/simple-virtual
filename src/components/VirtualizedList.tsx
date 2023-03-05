@@ -1,9 +1,9 @@
 import styles from './VirtualizedList.module.css';
 
 import { useRef } from 'react';
-import useVirtualizer from '../hooks/use-virtualizer';
 
-import { getItems } from '../utils/helpers';
+import useVirtualizer from '@/hooks/use-virtualizer';
+import { getItems } from '@/utils/helpers';
 
 const ITEM_COUNT = 100000;
 const ITEM_HEIGHT = 25;

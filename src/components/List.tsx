@@ -1,6 +1,6 @@
 import styles from './List.module.css';
 
-import { getItems } from '../utils/helpers';
+import { getItems } from '@/utils/helpers';
 
 const items = getItems();
 

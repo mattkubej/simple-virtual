@@ -1,6 +1,6 @@
 import { useReducer, useLayoutEffect, useState } from 'react';
 
-import { Virtualizer, VirtualizerOptions } from '../utils/Virtualizer';
+import { Virtualizer, VirtualizerOptions } from '@/utils/Virtualizer';
 
 export default function useVirtualizer<TScrollElement extends Element>(
   options: VirtualizerOptions<TScrollElement>

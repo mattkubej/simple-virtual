@@ -1,4 +1,4 @@
-import { range } from './helpers';
+import { range } from '@/utils/helpers';
 
 type CleanupCallback = () => void;
 type MaybeScrollElement<TScrollElement extends Element> = TScrollElement | null;
