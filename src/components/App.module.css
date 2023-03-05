@@ -1,0 +1,17 @@
+.App {
+  background-color: #282c34;
+  color: white;
+
+  height: 100vh;
+
+  min-width: 100vw;
+  width: max-content;
+}
+
+.Container {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
