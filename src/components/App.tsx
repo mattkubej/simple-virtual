@@ -1,6 +1,6 @@
 import styles from './App.module.css';
 
-import List from './List';
+// import List from './List';
 import VirtualizedList from './VirtualizedList';
 
 export default function App() {

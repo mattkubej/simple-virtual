@@ -1,8 +1,6 @@
 import styles from './List.module.css';
 
-function getItems(count = 100000) {
-  return new Array(count).fill(0).map((_, i) => `Item ${i}`);
-}
+import { getItems } from '../utils/helpers';
 
 const items = getItems();
 
