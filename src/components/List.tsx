@@ -1,14 +1,19 @@
 import styles from './List.module.css';
 
+import { useState } from 'react';
+
 import { getItems } from '@/utils/helpers';
 
-const items = getItems();
+export default function List({ rowCount }: { rowCount: number }) {
+  const [items, setItems] = useState(() => getItems(rowCount));
+  if (items.length !== rowCount) setItems(getItems(rowCount));
 
-export default function List() {
   return (
     <div className={styles.ScrollContainer}>
-      {items.map((item) => (
-        <div>{item}</div>
+      {items.map((item, index) => (
+        <div key={index} className={styles.ListItem}>
+          {item}
+        </div>
       ))}
     </div>
   );

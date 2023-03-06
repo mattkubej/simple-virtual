@@ -12,6 +12,23 @@
   height: 100%;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
 } 
+
+.Controls {
+  padding: 25px;
+  margin-bottom: 50px;
+}
+
+.Controls input, .Controls label {
+  vertical-align: middle;
+}
+
+.Controls input {
+  outline: none;
+}
+
+.Controls label:not(:last-child) {
+  margin-right: 20px;
+}

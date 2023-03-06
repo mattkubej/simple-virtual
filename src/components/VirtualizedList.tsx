@@ -1,18 +1,18 @@
 import styles from './VirtualizedList.module.css';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import useVirtualizer from '@/hooks/use-virtualizer';
 import { getItems } from '@/utils/helpers';
 
-const ITEM_COUNT = 100000;
 const ITEM_HEIGHT = 25;
 const OVERSCAN = 10;
 
-const items = getItems(ITEM_COUNT);
-
-export default function VirtualizedList() {
+export default function VirtualizedList({ rowCount }: { rowCount: number }) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const [items, setItems] = useState(() => getItems(rowCount));
+  if (items.length !== rowCount) setItems(getItems(rowCount));
 
   const virtualizer = useVirtualizer({
     getScrollElement: () => scrollContainerRef.current,
