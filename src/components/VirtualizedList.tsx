@@ -14,6 +14,7 @@ export default function VirtualizedList({ rowCount }: { rowCount: number }) {
   const [items, setItems] = useState(() => getItems(rowCount));
   if (items.length !== rowCount) setItems(getItems(rowCount));
 
+  // TODO: update to handle props changing
   const virtualizer = useVirtualizer({
     getScrollElement: () => scrollContainerRef.current,
     itemCount: items.length,
