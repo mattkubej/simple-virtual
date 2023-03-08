@@ -10,11 +10,8 @@ const OVERSCAN = 10;
 
 export default function VirtualizedList({ rowCount }: { rowCount: number }) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-
   const [items, setItems] = useState(() => getItems(rowCount));
-  if (items.length !== rowCount) setItems(getItems(rowCount));
 
-  // TODO: update to handle props changing
   const virtualizer = useVirtualizer({
     getScrollElement: () => scrollContainerRef.current,
     itemCount: items.length,
@@ -22,6 +19,12 @@ export default function VirtualizedList({ rowCount }: { rowCount: number }) {
     overscan: OVERSCAN,
     direction: 'vertical',
   });
+
+  if (items.length !== rowCount) {
+    const newItems = getItems(rowCount);
+    setItems(newItems);
+    virtualizer.setItemCount(newItems.length);
+  }
 
   return (
     <div className={styles.ScrollContainer} ref={scrollContainerRef}>

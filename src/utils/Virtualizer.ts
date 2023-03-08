@@ -73,6 +73,10 @@ export class Virtualizer<TScrollElement extends Element> {
     return this.options.itemCount * this.options.itemHeight;
   }
 
+  setItemCount(itemCount: number) {
+    this.options.itemCount = itemCount;
+  }
+
   cleanup() {
     this.cleanupCallbacks.forEach((cleanup) => cleanup());
     this.cleanupCallbacks = [];
