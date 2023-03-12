@@ -1,30 +1,22 @@
 import styles from './VirtualizedList.module.css';
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import useVirtualizer from '@/hooks/use-virtualizer';
-import { getItems } from '@/utils/helpers';
 
 const ITEM_HEIGHT = 25;
 const OVERSCAN = 10;
 
 export default function VirtualizedList({ rowCount }: { rowCount: number }) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [items, setItems] = useState(() => getItems(rowCount));
 
   const virtualizer = useVirtualizer({
     getScrollElement: () => scrollContainerRef.current,
-    itemCount: items.length,
+    itemCount: rowCount,
     itemHeight: ITEM_HEIGHT,
     overscan: OVERSCAN,
     direction: 'vertical',
   });
-
-  if (items.length !== rowCount) {
-    const newItems = getItems(rowCount);
-    setItems(newItems);
-    virtualizer.setItemCount(newItems.length);
-  }
 
   return (
     <div className={styles.ScrollContainer} ref={scrollContainerRef}>
@@ -44,7 +36,7 @@ export default function VirtualizedList({ rowCount }: { rowCount: number }) {
                 transform: `translateY(${virtualItem.offset}px)`,
               }}
             >
-              {items[virtualItemIndex]}
+              {`Item ${virtualItemIndex + 1}`}
             </div>
           );
         })}

@@ -1,9 +1,8 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import styles from './VirtualizedGrid.module.css';
 
 import useVirtualizer from '@/hooks/use-virtualizer';
-import { getItems } from '@/utils/helpers';
 
 const OVERSCAN = 10;
 
@@ -14,11 +13,6 @@ interface Props {
 
 export default function VirtualizedGrid({ rowCount, columnCount }: Props) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  // TODO: listen to prop changes and update items
-  const cellCount = rowCount * columnCount;
-  const [items, setItems] = useState(() => getItems(cellCount));
-  if (items.length !== cellCount) setItems(getItems(cellCount));
 
   const rowVirtualizer = useVirtualizer({
     getScrollElement: () => scrollContainerRef.current,
@@ -35,8 +29,6 @@ export default function VirtualizedGrid({ rowCount, columnCount }: Props) {
     overscan: OVERSCAN,
     direction: 'horizontal',
   });
-
-  console.log(rowVirtualizer.getVirtualItems());
 
   return (
     <div className={styles.ScrollContainer} ref={scrollContainerRef}>
@@ -68,7 +60,7 @@ export default function VirtualizedGrid({ rowCount, columnCount }: Props) {
                       transform: `translateX(${virtualColumn.offset}px) translateY(${virtualRow.offset}px)`,
                     }}
                   >
-                    {items[virtualRowIndex * columnCount + virtualColumnIndex]}
+                    {`${virtualRowIndex},${virtualColumnIndex}`}
                   </div>
                 );
               })}

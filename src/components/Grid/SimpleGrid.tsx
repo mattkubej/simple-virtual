@@ -1,9 +1,5 @@
 import styles from './SimpleGrid.module.css';
 
-import { useState } from 'react';
-
-import { getItems } from '@/utils/helpers';
-
 export default function SimpleGrid({
   rowCount,
   columnCount,
@@ -11,10 +7,6 @@ export default function SimpleGrid({
   rowCount: number;
   columnCount: number;
 }) {
-  const cellCount = rowCount * columnCount;
-  const [items, setItems] = useState(() => getItems(cellCount));
-  if (items.length !== cellCount) setItems(getItems(cellCount));
-
   return (
     <div className={styles.ScrollContainer}>
       <table>
@@ -25,7 +17,7 @@ export default function SimpleGrid({
                 {Array.from({ length: columnCount }).map((_, columnIndex) => {
                   return (
                     <td key={`${rowIndex},${columnIndex}`}>
-                      {items[rowIndex * columnCount + columnIndex]}
+                      {`${rowIndex},${columnIndex}`}
                     </td>
                   );
                 })}
