@@ -15,6 +15,8 @@ interface Config {
   virtualized: boolean;
 }
 
+// TODO: switch to count inputs to sliders
+// TODO consider abstracting out into separate component
 function Controls({
   config,
   onChange,
@@ -90,6 +92,7 @@ function isType(value: string): value is ComponentType {
 }
 
 function getConfigUpdate(event: React.ChangeEvent<HTMLInputElement>) {
+  // TODO makes this type safe and switch statement exhaustive
   const { name, value, checked } = event.target;
 
   switch (name) {
@@ -123,11 +126,13 @@ function getConfigUpdate(event: React.ChangeEvent<HTMLInputElement>) {
 }
 
 export default function App() {
+  // TODO: make this type safe
+  // TODO: adjust defaults
   const [config, setConfig] = useReducer(configReducer, {
-    componentType: 'list',
+    componentType: 'grid',
     rowCount: 100,
     columnCount: 100,
-    virtualized: false,
+    virtualized: true,
   });
 
   const handleConfigChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,7 +149,11 @@ export default function App() {
         {componentType === 'list' ? (
           <List rowCount={rowCount} virtualized={virtualized} />
         ) : (
-          <Grid rowCount={rowCount} columnCount={columnCount} />
+          <Grid
+            rowCount={rowCount}
+            columnCount={columnCount}
+            virtualized={virtualized}
+          />
         )}
       </div>
     </div>

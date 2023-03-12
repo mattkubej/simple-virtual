@@ -101,7 +101,7 @@ export class Virtualizer<TScrollElement extends Element> {
     this.cleanupCallbacks.push(
       addScrollOffsetListener(
         this.scrollElement,
-        'vertical',
+        this.options.direction,
         onScrollOffsetChange
       )
     );
