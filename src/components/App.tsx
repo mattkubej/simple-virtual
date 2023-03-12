@@ -4,9 +4,15 @@ import { useReducer } from 'react';
 
 import List from './List';
 import VirtualizedList from './VirtualizedList';
+import Grid from './Grid';
+
+const COMPONENT_TYPES = ['list', 'grid'] as const;
+type ComponentType = typeof COMPONENT_TYPES[number];
 
 interface Config {
+  componentType: ComponentType;
   rowCount: number;
+  columnCount: number;
   virtualized: boolean;
 }
 
@@ -15,10 +21,25 @@ function Controls({
   onChange,
 }: {
   config: Config;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onChange: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
 }) {
   return (
     <div className={styles.Controls}>
+      <label>
+        component type:{' '}
+        <select
+          name="componentType"
+          value={config.componentType}
+          onChange={onChange}
+        >
+          {COMPONENT_TYPES.map((componentType) => (
+            <option key={componentType} value={componentType}>
+              {componentType}
+            </option>
+          ))}
+        </select>
+      </label>
+
       <label>
         row count:{' '}
         <input
@@ -28,6 +49,18 @@ function Controls({
           onChange={onChange}
         />
       </label>
+
+      {config.componentType === 'grid' && (
+        <label>
+          column count:{' '}
+          <input
+            type="text"
+            name="columnCount"
+            value={config.columnCount}
+            onChange={onChange}
+          />
+        </label>
+      )}
 
       <label>
         virtualized:{' '}
@@ -53,11 +86,29 @@ function configReducer(state: Config, action: ConfigUpdate) {
   };
 }
 
+function isType(value: string): value is ComponentType {
+  return COMPONENT_TYPES.includes(value as ComponentType);
+}
+
 function getConfigUpdate(event: React.ChangeEvent<HTMLInputElement>) {
   const { name, value, checked } = event.target;
 
   switch (name) {
+    case 'componentType':
+      if (!isType(value)) {
+        throw new Error(`Unknown type: ${value}`);
+      }
+
+      return {
+        name,
+        value,
+      };
     case 'rowCount':
+      return {
+        name,
+        value: Number(value),
+      };
+    case 'columnCount':
       return {
         name,
         value: Number(value),
@@ -74,7 +125,9 @@ function getConfigUpdate(event: React.ChangeEvent<HTMLInputElement>) {
 
 export default function App() {
   const [config, setConfig] = useReducer(configReducer, {
-    rowCount: 1000,
+    componentType: 'list',
+    rowCount: 100,
+    columnCount: 100,
     virtualized: false,
   });
 
@@ -83,9 +136,7 @@ export default function App() {
     setConfig(configUpdate);
   };
 
-  const { rowCount, virtualized } = config;
-
-  console.log(rowCount);
+  const { componentType, rowCount, columnCount, virtualized } = config;
 
   return (
     <div className={styles.App}>
@@ -93,8 +144,10 @@ export default function App() {
         <Controls config={config} onChange={handleConfigChange} />
         {virtualized ? (
           <VirtualizedList rowCount={rowCount} />
-        ) : (
+        ) : componentType === 'list' ? (
           <List rowCount={rowCount} />
+        ) : (
+          <Grid rowCount={rowCount} columnCount={columnCount} />
         )}
       </div>
     </div>

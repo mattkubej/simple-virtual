@@ -25,7 +25,7 @@
   vertical-align: middle;
 }
 
-.Controls input {
+.Controls input, .Controls select {
   outline: none;
 }
 
