@@ -1,10 +1,10 @@
-import styles from './Grid.module.css';
+import styles from './SimpleGrid.module.css';
 
 import { useState } from 'react';
 
 import { getItems } from '@/utils/helpers';
 
-export default function Grid({
+export default function SimpleGrid({
   rowCount,
   columnCount,
 }: {

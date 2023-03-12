@@ -3,7 +3,6 @@ import styles from './App.module.css';
 import { useReducer } from 'react';
 
 import List from './List';
-import VirtualizedList from './VirtualizedList';
 import Grid from './Grid';
 
 const COMPONENT_TYPES = ['list', 'grid'] as const;
@@ -142,10 +141,8 @@ export default function App() {
     <div className={styles.App}>
       <div className={styles.Container}>
         <Controls config={config} onChange={handleConfigChange} />
-        {virtualized ? (
-          <VirtualizedList rowCount={rowCount} />
-        ) : componentType === 'list' ? (
-          <List rowCount={rowCount} />
+        {componentType === 'list' ? (
+          <List rowCount={rowCount} virtualized={virtualized} />
         ) : (
           <Grid rowCount={rowCount} columnCount={columnCount} />
         )}
